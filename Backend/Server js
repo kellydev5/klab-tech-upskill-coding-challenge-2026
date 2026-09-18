@@ -1,0 +1,36 @@
+const path = require("path");
+const express = require("express");
+const cors = require("cors");
+const tasksRouter = require("./routes/tasks");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// API routes
+app.use("/tasks", tasksRouter);
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", time: new Date().toISOString() });
+});
+
+// Serve the static frontend
+const frontendPath = path.join(__dirname, "..", "frontend");
+app.use(express.static(frontendPath));
+
+// Fallback to index.html for any non-API route (simple SPA support)
+app.get(/^(?!\/tasks|\/api).*/, (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
+
+// Central error handler
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal server error." });
+});
+
+app.listen(PORT, () => {
+  console.log(`Task Manager API running at http://localhost:${PORT}`);
+});
