@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Task Manager</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>📋 Task Manager</h1>
+      <button id="newTaskBtn" class="btn btn-primary">+ New Task</button>
+    </header>
+
+    <section class="toolbar">
+      <div class="filter-group">
+        <label for="statusFilter">Status</label>
+        <select id="statusFilter">
+          <option value="">All</option>
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="priorityFilter">Priority</label>
+        <select id="priorityFilter">
+          <option value="">All</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div class="filter-group search-group">
+        <label for="searchInput">Search</label>
+        <input type="text" id="searchInput" placeholder="Search title or description..." />
+      </div>
+    </section>
+
+    <section id="taskListSection">
+      <div id="loadingIndicator" class="loading hidden">Loading tasks...</div>
+      <div id="emptyState" class="empty-state hidden">No tasks found. Create one to get started!</div>
+      <ul id="taskList" class="task-list"></ul>
+    </section>
+
+    <div id="pagination" class="pagination"></div>
+  </div>
+
+  <!-- Create / Edit Modal -->
+  <div id="taskModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2 id="modalTitle">New Task</h2>
+      <form id="taskForm">
+        <input type="hidden" id="taskId" />
+
+        <label for="titleInput">Title *</label>
+        <input type="text" id="titleInput" maxlength="200" required />
+        <div class="field-error" id="titleError"></div>
+
+        <label for="descriptionInput">Description</label>
+        <textarea id="descriptionInput" rows="4"></textarea>
+
+        <div class="form-row">
+          <div>
+            <label for="priorityInput">Priority</label>
+            <select id="priorityInput">
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+          <div>
+            <label for="statusInput">Status</label>
+            <select id="statusInput">
+              <option value="Pending" selected>Pending</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="btn btn-secondary">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
